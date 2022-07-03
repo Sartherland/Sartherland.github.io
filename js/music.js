@@ -4,13 +4,13 @@ const ap = new APlayer({
     audio: [{
         name: 'comethru',
         artist: 'Jeremy Zucker / Bea Miller',
-        url: 'https://m801.music.126.net/20220703213817/bd6fd726000ef3057bdccbec748edfd9/jdyyaac/obj/w5rDlsOJwrLDjj7CmsOj/13256834629/6bc0/9823/70a6/fc7b828f92b3ef1eb6e2cb857e2eb00a.m4a',
+        url: 'https://dl.stream.qqmusic.qq.com/C400002h3qS42H0bpN.m4a?guid=2807914998&vkey=2D3F079B5127B15BCC3818940B215FE60F2A204BF350DE1C5C0F117C29395B99B70BCB2C6DA2734489B0D80CF9B95E0DA950CCEF2977FEA1&uin=1176139845&fromtag=120032',
         cover: 'http://p1.music.126.net/mmMLF6_a1yDnzGO1LVyCeg==/109951163926564641.jpg?param=130y130',
     },
    {
             name: "Baby I'm Yours",
             artist: 'Breakbot',
-            url: 'https://m10.music.126.net/20220703215233/e34145293d21fde0fad5305431e27582/yyaac/obj/wonDkMOGw6XDiTHCmMOi/3537659166/8f9a/6dd2/9af0/890714497a00af82310169e39cb541c3.m4a',
+            url: 'ttps://dl.stream.qqmusic.qq.com/C400002s767H3mj2h1.m4a?guid=8546994410&vkey=F7FC0C8B09A66701CAB0B31AB739C2A942CF7E6188D6F191A2524C4C44C1D76273FEF262EBDF3FCD0D9722511A77E296BBFF19150CBF8E54&uin=1176139845&fromtag=120032',
             cover: 'http://p1.music.126.net/9YvEXwlECxr3o-lZp-nmLw==/109951165212867712.jpg?param=130y130',
      }
     ]
