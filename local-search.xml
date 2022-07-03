@@ -4,6 +4,32 @@
   
   
   <entry>
+    <title>Welcome-to-my-blog</title>
+    <link href="/2022/07/03/Welcome-to-my-blog/"/>
+    <url>/2022/07/03/Welcome-to-my-blog/</url>
+    
+    <content type="html"><![CDATA[]]></content>
+    
+    
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>Blog</title>
+    <link href="/2022/07/03/Blog/"/>
+    <url>/2022/07/03/Blog/</url>
+    
+    <content type="html"><![CDATA[<img src="/2022/07/03/Blog/bg2.jpg" class title="This is an example image">]]></content>
+    
+    
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>Hello World</title>
     <link href="/2022/07/03/hello-world/"/>
     <url>/2022/07/03/hello-world/</url>
