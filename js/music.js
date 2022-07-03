@@ -10,7 +10,7 @@ const ap = new APlayer({
    {
             name: "Baby I'm Yours",
             artist: 'Breakbot',
-            url: 'ttps://dl.stream.qqmusic.qq.com/C400002s767H3mj2h1.m4a?guid=8546994410&vkey=F7FC0C8B09A66701CAB0B31AB739C2A942CF7E6188D6F191A2524C4C44C1D76273FEF262EBDF3FCD0D9722511A77E296BBFF19150CBF8E54&uin=1176139845&fromtag=120032',
+            url: 'https://dl.stream.qqmusic.qq.com/C400002s767H3mj2h1.m4a?guid=6560413900&vkey=1A1D600BD21C82B85CFEBAB859DE144485815F6E74BFB3AFB4320FA5B73C7FE3EB18690A03D7A7E8E2565DBB3FCCF94CA9928C34AC293E1B&uin=1176139845&fromtag=120032',
             cover: 'http://p1.music.126.net/9YvEXwlECxr3o-lZp-nmLw==/109951165212867712.jpg?param=130y130',
      }
     ]
