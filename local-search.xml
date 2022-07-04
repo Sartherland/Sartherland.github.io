@@ -21,7 +21,7 @@
     <link href="/2022/07/03/Blog/"/>
     <url>/2022/07/03/Blog/</url>
     
-    <content type="html"><![CDATA[<img src="/2022/07/03/Blog/bg2.jpg" class title="This is an example image">]]></content>
+    <content type="html"><![CDATA[<img src="/2022/07/03/Blog/bg2.jpg" srcset="/img/loading.gif" lazyload class title="This is an example image">]]></content>
     
     
     
