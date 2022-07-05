@@ -12,7 +12,7 @@ const ap = new APlayer({
     {
         name: 'comethru',
         artist: 'Jeremy Zucker / Bea Miller',
-        url: 'https://dl.stream.qqmusic.qq.com/C400002h3qS42H0bpN.m4a?guid=2807914998&vkey=2D3F079B5127B15BCC3818940B215FE60F2A204BF350DE1C5C0F117C29395B99B70BCB2C6DA2734489B0D80CF9B95E0DA950CCEF2977FEA1&uin=1176139845&fromtag=120032',
+        url: 'https://m701.music.126.net/20220705142907/7f4d89d46826beadc448fed9a089e0fc/jdyyaac/obj/w5rDlsOJwrLDjj7CmsOj/13256834629/6bc0/9823/70a6/fc7b828f92b3ef1eb6e2cb857e2eb00a.m4a',
         cover: 'http://p1.music.126.net/mmMLF6_a1yDnzGO1LVyCeg==/109951163926564641.jpg?param=130y130',
     },
    {
