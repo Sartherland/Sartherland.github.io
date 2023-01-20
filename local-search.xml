@@ -4,6 +4,38 @@
   
   
   <entry>
+    <title>No Title!Just a picture!😛</title>
+    <link href="/2023/01/20/No%20Title!Just%20a%20picture!%F0%9F%98%9B/"/>
+    <url>/2023/01/20/No%20Title!Just%20a%20picture!%F0%9F%98%9B/</url>
+    
+    <content type="html"><![CDATA[<p><img src="/img%5Cpic1.jpg" srcset="/img/loading.gif" lazyload></p>]]></content>
+    
+    
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>博客搭建(主要是怕自己忘记咋弄了)</title>
+    <link href="/2023/01/20/%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA(%E4%B8%BB%E8%A6%81%E6%98%AF%E6%80%95%E8%87%AA%E5%B7%B1%E5%BF%98%E8%AE%B0%E5%92%8B%E5%BC%84%E4%BA%86)/"/>
+    <url>/2023/01/20/%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA(%E4%B8%BB%E8%A6%81%E6%98%AF%E6%80%95%E8%87%AA%E5%B7%B1%E5%BF%98%E8%AE%B0%E5%92%8B%E5%BC%84%E4%BA%86)/</url>
+    
+    <content type="html"><![CDATA[<p>网站本地启动</p><p>cd hexo-blog</p><p>hexo g </p><p>hexo server</p><p>博客hexo根目录在D:&#x2F;blog</p><p>先修改完博文内容</p><p>👇更新本地hexo配置</p><p>先hexo g</p><p>再hexo d</p><p>配置完后准备发布到GitHub👇</p><figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs text">hexo clean<br>hexo generate<br>(若要本地预览就先执行 hexo server)<br>hexo deploy<br></code></pre></td></tr></table></figure><p>git config –global http.sslVerify “true”</p><p>👆个人解决方案</p><p>按照网上的false并不能使用，更改为true后惊讶地发现可以使用</p><p>另外还要到设置中修改域名（每次博客更新都需要修改域名，每次更新设置的域名都会重置）</p><p>参考文章：</p><p><a href="https://www.jianshu.com/p/23b9e095c7c9">为你的hexo博客配置个性域名 - 简书 (jianshu.com)</a></p><p><a href="https://blog.csdn.net/ten_sory/article/details/81359421?spm=1001.2101.3001.6650.1&utm_medium=distribute.pc_relevant.none-task-blog-2~default~BlogCommendFromBaidu~default-1-81359421-blog-120295287.pc_relevant_multi_platform_whitelistv2&depth_1-utm_source=distribute.pc_relevant.none-task-blog-2~default~BlogCommendFromBaidu~default-1-81359421-blog-120295287.pc_relevant_multi_platform_whitelistv2&utm_relevant_index=2">(8条消息) Hexo+github博客搭建与自定义域名_梦想总是要不可及，是不是应该放弃的博客-CSDN博客</a></p><p><a href="https://blog.csdn.net/bbsyi/article/details/119101852">(8条消息) GitHub Pages + Hexo搭建个人博客网站，史上最全教程_弹琴弹琴的博客-CSDN博客_githubpages hexo</a></p><p><a href="https://hexo.fluid-dev.com/docs/guide/">https://hexo.fluid-dev.com/docs/guide/</a></p>]]></content>
+    
+    
+    
+    <tags>
+      
+      <tag>主要是怕自己忘记咋弄了,只记录了一些自己可能忘了的东西</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>CTF网站收录</title>
     <link href="/2022/07/03/Welcome-to-my-blog/"/>
     <url>/2022/07/03/Welcome-to-my-blog/</url>
@@ -11,6 +43,12 @@
     <content type="html"><![CDATA[<p>比较系统的学习路线：<br><a href="https://ctf-wiki.org/">https://ctf-wiki.org/</a><br>刷题网站：<br><a href="https://buuoj.cn/">https://buuoj.cn/</a><br><a href="https://adworld.xctf.org.cn/">https://adworld.xctf.org.cn/</a><br><a href="https://www.ctfhub.com/#/index">https://www.ctfhub.com/#/index</a><br><a href="https://ctf.show/">https://ctf.show/</a><br><a href="http://www.zxsctf.com/">http://www.zxsctf.com/</a><br><a href="https://pwnable.tw/">https://pwnable.tw/</a>(pwn)<br><a href="https://microcorruption.com/">https://microcorruption.com/</a>(iot&amp;&amp;reverse&amp;&amp;pwn)<br>比赛资讯：<br><a href="https://www.ctfhub.com/#/calendar">https://www.ctfhub.com/#/calendar</a></p>]]></content>
     
     
+    
+    <tags>
+      
+      <tag>用sticky置顶了哦</tag>
+      
+    </tags>
     
   </entry>
   
@@ -22,19 +60,6 @@
     <url>/2022/07/03/Blog/</url>
     
     <content type="html"><![CDATA[<img src="/2022/07/03/Blog/bg2.jpg" srcset="/img/loading.gif" lazyload class title="This is an example image">]]></content>
-    
-    
-    
-  </entry>
-  
-  
-  
-  <entry>
-    <title>Hello World</title>
-    <link href="/2022/07/03/hello-world/"/>
-    <url>/2022/07/03/hello-world/</url>
-    
-    <content type="html"><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p><h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ hexo new <span class="hljs-string">&quot;My New Post&quot;</span><br></code></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p><h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ hexo server<br></code></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p><h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ hexo generate<br></code></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p><h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ hexo deploy<br></code></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>]]></content>
     
     
     
