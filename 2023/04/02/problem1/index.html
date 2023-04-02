@@ -16,17 +16,29 @@
   <meta name="author" content="Ec0y">
   <meta name="keywords" content="">
   
-    <meta name="description" content="​	本文记录自己的第一次SSTI成功案例。(很菜，轻喷😭)   打开靶机后没有看到有用的提示，看一下源码。   发现有一个压缩包，下载下来看看。   是flask的模板，分析一下源码应该就是在&#x2F;hello目录下有SSTI注入的漏洞。 进入hello目录下并照常走一下判断流程，发现应该是jinja2的模板。   放张老图   找一下object   再看看有什么类能用的   这边参考了一">
+    <meta name="description" content="​	本文记录自己的第一次SSTI成功案例。(很菜，轻喷😭)  打开靶机后没有看到有用的提示，看一下源码。  发现有一个压缩包，下载下来看看。  是flask的模板，分析一下源码应该就是在&#x2F;hello目录下有SSTI注入的漏洞。 进入hello目录下并照常走一下判断流程，发现应该是jinja2的模板。  放张老图  找一下object  再看看有什么类能用的  这边参考了一位大佬的博客">
 <meta property="og:type" content="article">
 <meta property="og:title" content="CTFSHOW愚人杯easy_ssti">
 <meta property="og:url" content="http://example.com/2023/04/02/problem1/index.html">
 <meta property="og:site_name" content="Ec0y&#39;s Blog">
-<meta property="og:description" content="​	本文记录自己的第一次SSTI成功案例。(很菜，轻喷😭)   打开靶机后没有看到有用的提示，看一下源码。   发现有一个压缩包，下载下来看看。   是flask的模板，分析一下源码应该就是在&#x2F;hello目录下有SSTI注入的漏洞。 进入hello目录下并照常走一下判断流程，发现应该是jinja2的模板。   放张老图   找一下object   再看看有什么类能用的   这边参考了一">
+<meta property="og:description" content="​	本文记录自己的第一次SSTI成功案例。(很菜，轻喷😭)  打开靶机后没有看到有用的提示，看一下源码。  发现有一个压缩包，下载下来看看。  是flask的模板，分析一下源码应该就是在&#x2F;hello目录下有SSTI注入的漏洞。 进入hello目录下并照常走一下判断流程，发现应该是jinja2的模板。  放张老图  找一下object  再看看有什么类能用的  这边参考了一位大佬的博客">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/img%5Cproblem1-1.png">
+<meta property="og:image" content="http://example.com/img%5Cproblem1-2.png">
+<meta property="og:image" content="http://example.com/img%5Cproblem1-3.png">
+<meta property="og:image" content="http://example.com/img%5Cproblem1-4.png">
+<meta property="og:image" content="http://example.com/img%5Cproblem1-5.png">
+<meta property="og:image" content="http://example.com/img%5Cproblem1-6.png">
+<meta property="og:image" content="http://example.com/img%5Cproblem1-7.png">
+<meta property="og:image" content="http://example.com/img%5Cproblem1-8.png">
+<meta property="og:image" content="http://example.com/img%5Cproblem1-9.png">
+<meta property="og:image" content="http://example.com/img%5Cproblem1-10.png">
+<meta property="og:image" content="http://example.com/img%5Cproblem1-11.png">
 <meta property="article:published_time" content="2023-04-02T06:57:36.000Z">
-<meta property="article:modified_time" content="2023-04-02T11:17:25.257Z">
+<meta property="article:modified_time" content="2023-04-02T11:23:23.933Z">
 <meta property="article:author" content="Ec0y">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://example.com/img%5Cproblem1-1.png">
   
   
   
@@ -253,38 +265,29 @@
               <div class="markdown-body">
                 
                 <p>​	本文记录自己的第一次SSTI成功案例。(很菜，轻喷😭)</p>
-
-
+<p><img src="/img%5Cproblem1-1.png" srcset="/img/loading.gif" lazyload></p>
 <p>打开靶机后没有看到有用的提示，看一下源码。</p>
-
-
+<p><img src="/img%5Cproblem1-2.png" srcset="/img/loading.gif" lazyload></p>
 <p>发现有一个压缩包，下载下来看看。</p>
-
-
+<p><img src="/img%5Cproblem1-3.png" srcset="/img/loading.gif" lazyload></p>
 <p>是flask的模板，分析一下源码应该就是在&#x2F;hello目录下有SSTI注入的漏洞。</p>
 <p>进入hello目录下并照常走一下判断流程，发现应该是jinja2的模板。</p>
-
-
+<p><img src="/img%5Cproblem1-4.png" srcset="/img/loading.gif" lazyload></p>
 <p>放张老图</p>
-
-
+<p><img src="/img%5Cproblem1-5.png" srcset="/img/loading.gif" lazyload></p>
 <p>找一下object</p>
-
-
+<p><img src="/img%5Cproblem1-6.png" srcset="/img/loading.gif" lazyload></p>
 <p>再看看有什么类能用的</p>
-
-
+<p><img src="/img%5Cproblem1-7.png" srcset="/img/loading.gif" lazyload></p>
 <p><a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_58624515/article/details/127991339">这边参考了一位大佬的博客</a></p>
 <p>找catch_warnings，因为catch_warning是function具有__globals__</p>
 <p>然后再通过__globals__里的builtins的__import__来getshell</p>
 <p>os库中可以调用popen函数执行命令，再read读取到页面上。</p>
 <p>在页面上查catch_warning的位置，再查class的位置就能大概查到是第几个类了。</p>
 <p>用ls查了一下当前目录，app.py 里也没啥有用信息，和压缩包里是一样的。</p>
-
-
+<p><img src="/img%5Cproblem1-8.png" srcset="/img/loading.gif" lazyload></p>
 <p>接下来看看templates</p>
-
-
+<p><img src="/img%5Cproblem1-9.png" srcset="/img/loading.gif" lazyload></p>
 <p>发现也是没什么东西。</p>
 <p>那就直接根目录查flag吧。</p>
 
@@ -293,8 +296,7 @@
 
 
 
-
-
+<p><img src="/img%5Cproblem1-10.png" srcset="/img/loading.gif" lazyload></p>
 <p>发现not found了</p>
 <p>猜测了一下，应该是将语句中的”&#x2F;“当成目录了。</p>
 <p>那就试试base64+管道符绕过</p>
@@ -305,8 +307,7 @@
 
 
 
-
-
+<p><img src="/img%5Cproblem1-11.png" srcset="/img/loading.gif" lazyload></p>
 <p>成功拿到flag。</p>
 <p>注意要包一层反引号（命令执行），不然会被当做字符串echo出来。</p>
 <p>另外这道题刚开始的源码那块对”f”和”ge”进行了处理，我不知道在其他思路里会不会卡住，我试了下可以在语句的最后直接加上”ge”绕过。</p>
