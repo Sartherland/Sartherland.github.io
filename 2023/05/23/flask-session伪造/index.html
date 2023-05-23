@@ -1,0 +1,643 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/hu.jfif">
+  <link rel="icon" href="/img/hu.jfif">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Ec0y">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="​	本篇文章将讲解BUUCTF的[CISCN2019 华东南赛区]Web4，关于flask_session伪造。 本人能力有限，如有错误，还望各位大佬指正。 最近打比赛遇到了flask_session伪造相关的题目，没学过，又碰巧随机挑了道BUUCTF的题目正好考的flask_session伪造，看完各位师傅的WP后，进行一次自我总结。 打开靶机后看到   点击后跳转到了百度， 看一下url">
+<meta property="og:type" content="article">
+<meta property="og:title" content="flask_session伪造">
+<meta property="og:url" content="http://example.com/2023/05/23/flask-session%E4%BC%AA%E9%80%A0/index.html">
+<meta property="og:site_name" content="Ec0y&#39;s Blog">
+<meta property="og:description" content="​	本篇文章将讲解BUUCTF的[CISCN2019 华东南赛区]Web4，关于flask_session伪造。 本人能力有限，如有错误，还望各位大佬指正。 最近打比赛遇到了flask_session伪造相关的题目，没学过，又碰巧随机挑了道BUUCTF的题目正好考的flask_session伪造，看完各位师傅的WP后，进行一次自我总结。 打开靶机后看到   点击后跳转到了百度， 看一下url">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/2023/05/23/flask-session%E4%BC%AA%E9%80%A0/1.png">
+<meta property="og:image" content="http://example.com/2023/05/23/flask-session%E4%BC%AA%E9%80%A0/2.png">
+<meta property="og:image" content="http://example.com/2023/05/23/flask-session%E4%BC%AA%E9%80%A0/3.png">
+<meta property="og:image" content="http://example.com/2023/05/23/flask-session%E4%BC%AA%E9%80%A0/4.png">
+<meta property="og:image" content="http://example.com/2023/05/23/flask-session%E4%BC%AA%E9%80%A0/5.png">
+<meta property="og:image" content="http://example.com/2023/05/23/flask-session%E4%BC%AA%E9%80%A0/6.png">
+<meta property="og:image" content="http://example.com/2023/05/23/flask-session%E4%BC%AA%E9%80%A0/7.png">
+<meta property="og:image" content="http://example.com/2023/05/23/flask-session%E4%BC%AA%E9%80%A0/8.png">
+<meta property="og:image" content="http://example.com/2023/05/23/flask-session%E4%BC%AA%E9%80%A0/9.png">
+<meta property="og:image" content="http://example.com/2023/05/23/flask-session%E4%BC%AA%E9%80%A0/10.png">
+<meta property="og:image" content="http://example.com/2023/05/23/flask-session%E4%BC%AA%E9%80%A0/11.png">
+<meta property="article:published_time" content="2023-05-23T12:04:02.000Z">
+<meta property="article:modified_time" content="2023-05-23T13:04:04.720Z">
+<meta property="article:author" content="Ec0y">
+<meta property="article:tag" content="flask_session伪造">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://example.com/2023/05/23/flask-session%E4%BC%AA%E9%80%A0/1.png">
+  
+  
+  
+  <title>flask_session伪造 - Ec0y&#39;s Blog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+  
+<link rel="stylesheet" href="/dist/APlayer.min.css">
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.2","typing":{"enable":true,"typeSpeed":100,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":true,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.2.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Ec0y&#39;s Blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/">
+                <i class="iconfont icon-link-fill"></i>
+                友链
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="flask_session伪造"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2023-05-23 20:04" pubdate>
+          2023年5月23日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          6.6k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          56 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">flask_session伪造</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <p>​	本篇文章将讲解BUUCTF的[CISCN2019 华东南赛区]Web4，关于flask_session伪造。</p>
+<p>本人能力有限，如有错误，还望各位大佬指正。</p>
+<p>最近打比赛遇到了flask_session伪造相关的题目，没学过，又碰巧随机挑了道BUUCTF的题目正好考的flask_session伪造，看完各位师傅的WP后，进行一次自我总结。</p>
+<p>打开靶机后看到</p>
+<img src="/2023/05/23/flask-session%E4%BC%AA%E9%80%A0/1.png" srcset="/img/loading.gif" lazyload>
+
+<p>点击后跳转到了百度，</p>
+<p>看一下url</p>
+<img src="/2023/05/23/flask-session%E4%BC%AA%E9%80%A0/2.png" srcset="/img/loading.gif" lazyload>
+
+<p>感觉像任意文件读取，故进行尝试读取密码</p>
+<img src="/2023/05/23/flask-session%E4%BC%AA%E9%80%A0/3.png" srcset="/img/loading.gif" lazyload>
+
+<p>真读到了</p>
+<p>那尝试读一下&#x2F;flag</p>
+<p>出现了NO HACK字样</p>
+<p>那么看看能不能读出当前执行的程序&#x2F;proc&#x2F;self&#x2F;cmdline</p>
+<img src="/2023/05/23/flask-session%E4%BC%AA%E9%80%A0/4.png" srcset="/img/loading.gif" lazyload>
+
+<p>再读一读程序源码&#x2F;app&#x2F;app.py</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment"># encoding:utf-8</span><br><span class="hljs-keyword">import</span> re, random, uuid, urllib<br><span class="hljs-keyword">from</span> flask <span class="hljs-keyword">import</span> Flask, session, request<br><br>app = Flask(__name__)<br>random.seed(uuid.getnode())<br>app.config[<span class="hljs-string">&#x27;SECRET_KEY&#x27;</span>] = <span class="hljs-built_in">str</span>(random.random()*<span class="hljs-number">233</span>)<br>app.debug = <span class="hljs-literal">True</span><br><br><span class="hljs-meta">@app.route(<span class="hljs-params"><span class="hljs-string">&#x27;/&#x27;</span></span>)</span><br><span class="hljs-keyword">def</span> <span class="hljs-title function_">index</span>():<br>    session[<span class="hljs-string">&#x27;username&#x27;</span>] = <span class="hljs-string">&#x27;www-data&#x27;</span><br>    <span class="hljs-keyword">return</span> <span class="hljs-string">&#x27;Hello World! </span><br><span class="hljs-string">@app.route(&#x27;</span>/read<span class="hljs-string">&#x27;)</span><br><span class="hljs-string">def read():</span><br><span class="hljs-string">    try:</span><br><span class="hljs-string">        url = request.args.get(&#x27;</span>url<span class="hljs-string">&#x27;)</span><br><span class="hljs-string">        m = re.findall(&#x27;</span>^file.*<span class="hljs-string">&#x27;, url, re.IGNORECASE)</span><br><span class="hljs-string">        n = re.findall(&#x27;</span>flag<span class="hljs-string">&#x27;, url, re.IGNORECASE)</span><br><span class="hljs-string">        if m or n:</span><br><span class="hljs-string">            return &#x27;</span>No Hack<span class="hljs-string">&#x27;</span><br><span class="hljs-string">        res = urllib.urlopen(url)</span><br><span class="hljs-string">        return res.read()</span><br><span class="hljs-string">    except Exception as ex:</span><br><span class="hljs-string">        print str(ex)</span><br><span class="hljs-string">    return &#x27;</span>no response<span class="hljs-string">&#x27;</span><br><span class="hljs-string"></span><br><span class="hljs-string">@app.route(&#x27;</span>/flag<span class="hljs-string">&#x27;)</span><br><span class="hljs-string">def flag():</span><br><span class="hljs-string">    if session and session[&#x27;</span>username<span class="hljs-string">&#x27;] == &#x27;</span>fuck<span class="hljs-string">&#x27;:</span><br><span class="hljs-string">        return open(&#x27;</span>/flag.txt<span class="hljs-string">&#x27;).read()</span><br><span class="hljs-string">    else:</span><br><span class="hljs-string">        return &#x27;</span>Access denied<span class="hljs-string">&#x27;</span><br><span class="hljs-string"></span><br><span class="hljs-string">if __name__==&#x27;</span>__main__<span class="hljs-string">&#x27;:</span><br><span class="hljs-string">    app.run(</span><br><span class="hljs-string">        debug=True,</span><br><span class="hljs-string">        host=&quot;0.0.0.0&quot;</span><br><span class="hljs-string">    )</span><br><span class="hljs-string"></span><br></code></pre></td></tr></table></figure>
+
+<p>&#x2F;read不让读flag,从&#x2F;flag中读的话需要伪造session</p>
+<p>关注到下面这块代码</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs python">app = Flask(__name__)<br>random.seed(uuid.getnode())<br>app.config[<span class="hljs-string">&#x27;SECRET_KEY&#x27;</span>] = <span class="hljs-built_in">str</span>(random.random()*<span class="hljs-number">233</span>)<br>app.debug = <span class="hljs-literal">True</span><br></code></pre></td></tr></table></figure>
+
+<p>random.seed()用来设置随机种子，相同的种子就会依照顺序来随机数字。</p>
+<p>uuid.getnode()是用来获取设备地址的,因此我们需要先读取设备网卡的MAC地址再在本地进行session伪造。</p>
+<p>百度了一下linux下设备网卡地址在&#x2F;sys&#x2F;class&#x2F;net&#x2F;eth0&#x2F;address下</p>
+<img src="/2023/05/23/flask-session%E4%BC%AA%E9%80%A0/5.png" srcset="/img/loading.gif" lazyload>
+
+<p>读到后将其在python中设置为random.seed(),并random跑一下得到SECRET_KEY</p>
+<img src="/2023/05/23/flask-session%E4%BC%AA%E9%80%A0/6.png" srcset="/img/loading.gif" lazyload>
+
+<p>注意这里有个坑，目标地址设备是用python2跑的，而我这里是python3,之前我一直用这个当SECRET_KEY,然后一直跑不出flag，百度了一下，python2和python3 random出来的位数是不一样的。（被坑了老长时间了5555555）我这里没装python2，就找了个在线网站跑一下。</p>
+<img src="/2023/05/23/flask-session%E4%BC%AA%E9%80%A0/7.png" srcset="/img/loading.gif" lazyload>
+
+<p>不过直接python3取9位好像也行。</p>
+<img src="/2023/05/23/flask-session%E4%BC%AA%E9%80%A0/8.png" srcset="/img/loading.gif" lazyload>
+
+<p>把自己的cookie解密一下看看格式。</p>
+<img src="/2023/05/23/flask-session%E4%BC%AA%E9%80%A0/9.png" srcset="/img/loading.gif" lazyload>
+
+<p>下面附一下脚本</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment">#!/usr/bin/env python3</span><br><span class="hljs-string">&quot;&quot;&quot; Flask Session Cookie Decoder/Encoder &quot;&quot;&quot;</span><br>__author__ = <span class="hljs-string">&#x27;Wilson Sumanang, Alexandre ZANNI&#x27;</span><br><br><span class="hljs-comment"># standard imports</span><br><span class="hljs-keyword">import</span> sys<br><span class="hljs-keyword">import</span> zlib<br><span class="hljs-keyword">from</span> itsdangerous <span class="hljs-keyword">import</span> base64_decode<br><span class="hljs-keyword">import</span> ast<br><br><span class="hljs-comment"># Abstract Base Classes (PEP 3119)</span><br><span class="hljs-keyword">if</span> sys.version_info[<span class="hljs-number">0</span>] &lt; <span class="hljs-number">3</span>: <span class="hljs-comment"># &lt; 3.0</span><br>    <span class="hljs-keyword">raise</span> Exception(<span class="hljs-string">&#x27;Must be using at least Python 3&#x27;</span>)<br><span class="hljs-keyword">elif</span> sys.version_info[<span class="hljs-number">0</span>] == <span class="hljs-number">3</span> <span class="hljs-keyword">and</span> sys.version_info[<span class="hljs-number">1</span>] &lt; <span class="hljs-number">4</span>: <span class="hljs-comment"># &gt;= 3.0 &amp;&amp; &lt; 3.4</span><br>    <span class="hljs-keyword">from</span> abc <span class="hljs-keyword">import</span> ABCMeta, abstractmethod<br><span class="hljs-keyword">else</span>: <span class="hljs-comment"># &gt; 3.4</span><br>    <span class="hljs-keyword">from</span> abc <span class="hljs-keyword">import</span> ABC, abstractmethod<br><br><span class="hljs-comment"># Lib for argument parsing</span><br><span class="hljs-keyword">import</span> argparse<br><br><span class="hljs-comment"># external Imports</span><br><span class="hljs-keyword">from</span> flask.sessions <span class="hljs-keyword">import</span> SecureCookieSessionInterface<br><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">MockApp</span>(<span class="hljs-title class_ inherited__">object</span>):<br><br>    <span class="hljs-keyword">def</span> <span class="hljs-title function_">__init__</span>(<span class="hljs-params">self, secret_key</span>):<br>        self.secret_key = secret_key<br><br><br><span class="hljs-keyword">if</span> sys.version_info[<span class="hljs-number">0</span>] == <span class="hljs-number">3</span> <span class="hljs-keyword">and</span> sys.version_info[<span class="hljs-number">1</span>] &lt; <span class="hljs-number">4</span>: <span class="hljs-comment"># &gt;= 3.0 &amp;&amp; &lt; 3.4</span><br>    <span class="hljs-keyword">class</span> <span class="hljs-title class_">FSCM</span>(metaclass=ABCMeta):<br>        <span class="hljs-keyword">def</span> <span class="hljs-title function_">encode</span>(<span class="hljs-params">secret_key, session_cookie_structure</span>):<br>            <span class="hljs-string">&quot;&quot;&quot; Encode a Flask session cookie &quot;&quot;&quot;</span><br>            <span class="hljs-keyword">try</span>:<br>                app = MockApp(secret_key)<br><br>                session_cookie_structure = <span class="hljs-built_in">dict</span>(ast.literal_eval(session_cookie_structure))<br>                si = SecureCookieSessionInterface()<br>                s = si.get_signing_serializer(app)<br><br>                <span class="hljs-keyword">return</span> s.dumps(session_cookie_structure)<br>            <span class="hljs-keyword">except</span> Exception <span class="hljs-keyword">as</span> e:<br>                <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;[Encoding error] &#123;&#125;&quot;</span>.<span class="hljs-built_in">format</span>(e)<br>                <span class="hljs-keyword">raise</span> e<br><br><br>        <span class="hljs-keyword">def</span> <span class="hljs-title function_">decode</span>(<span class="hljs-params">session_cookie_value, secret_key=<span class="hljs-literal">None</span></span>):<br>            <span class="hljs-string">&quot;&quot;&quot; Decode a Flask cookie  &quot;&quot;&quot;</span><br>            <span class="hljs-keyword">try</span>:<br>                <span class="hljs-keyword">if</span>(secret_key==<span class="hljs-literal">None</span>):<br>                    compressed = <span class="hljs-literal">False</span><br>                    payload = session_cookie_value<br><br>                    <span class="hljs-keyword">if</span> payload.startswith(<span class="hljs-string">&#x27;.&#x27;</span>):<br>                        compressed = <span class="hljs-literal">True</span><br>                        payload = payload[<span class="hljs-number">1</span>:]<br><br>                    data = payload.split(<span class="hljs-string">&quot;.&quot;</span>)[<span class="hljs-number">0</span>]<br><br>                    data = base64_decode(data)<br>                    <span class="hljs-keyword">if</span> compressed:<br>                        data = zlib.decompress(data)<br><br>                    <span class="hljs-keyword">return</span> data<br>                <span class="hljs-keyword">else</span>:<br>                    app = MockApp(secret_key)<br><br>                    si = SecureCookieSessionInterface()<br>                    s = si.get_signing_serializer(app)<br><br>                    <span class="hljs-keyword">return</span> s.loads(session_cookie_value)<br>            <span class="hljs-keyword">except</span> Exception <span class="hljs-keyword">as</span> e:<br>                <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;[Decoding error] &#123;&#125;&quot;</span>.<span class="hljs-built_in">format</span>(e)<br>                <span class="hljs-keyword">raise</span> e<br><span class="hljs-keyword">else</span>: <span class="hljs-comment"># &gt; 3.4</span><br>    <span class="hljs-keyword">class</span> <span class="hljs-title class_">FSCM</span>(<span class="hljs-title class_ inherited__">ABC</span>):<br>        <span class="hljs-keyword">def</span> <span class="hljs-title function_">encode</span>(<span class="hljs-params">secret_key, session_cookie_structure</span>):<br>            <span class="hljs-string">&quot;&quot;&quot; Encode a Flask session cookie &quot;&quot;&quot;</span><br>            <span class="hljs-keyword">try</span>:<br>                app = MockApp(secret_key)<br><br>                session_cookie_structure = <span class="hljs-built_in">dict</span>(ast.literal_eval(session_cookie_structure))<br>                si = SecureCookieSessionInterface()<br>                s = si.get_signing_serializer(app)<br><br>                <span class="hljs-keyword">return</span> s.dumps(session_cookie_structure)<br>            <span class="hljs-keyword">except</span> Exception <span class="hljs-keyword">as</span> e:<br>                <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;[Encoding error] &#123;&#125;&quot;</span>.<span class="hljs-built_in">format</span>(e)<br>                <span class="hljs-keyword">raise</span> e<br><br><br>        <span class="hljs-keyword">def</span> <span class="hljs-title function_">decode</span>(<span class="hljs-params">session_cookie_value, secret_key=<span class="hljs-literal">None</span></span>):<br>            <span class="hljs-string">&quot;&quot;&quot; Decode a Flask cookie  &quot;&quot;&quot;</span><br>            <span class="hljs-keyword">try</span>:<br>                <span class="hljs-keyword">if</span>(secret_key==<span class="hljs-literal">None</span>):<br>                    compressed = <span class="hljs-literal">False</span><br>                    payload = session_cookie_value<br><br>                    <span class="hljs-keyword">if</span> payload.startswith(<span class="hljs-string">&#x27;.&#x27;</span>):<br>                        compressed = <span class="hljs-literal">True</span><br>                        payload = payload[<span class="hljs-number">1</span>:]<br><br>                    data = payload.split(<span class="hljs-string">&quot;.&quot;</span>)[<span class="hljs-number">0</span>]<br><br>                    data = base64_decode(data)<br>                    <span class="hljs-keyword">if</span> compressed:<br>                        data = zlib.decompress(data)<br><br>                    <span class="hljs-keyword">return</span> data<br>                <span class="hljs-keyword">else</span>:<br>                    app = MockApp(secret_key)<br><br>                    si = SecureCookieSessionInterface()<br>                    s = si.get_signing_serializer(app)<br><br>                    <span class="hljs-keyword">return</span> s.loads(session_cookie_value)<br>            <span class="hljs-keyword">except</span> Exception <span class="hljs-keyword">as</span> e:<br>                <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;[Decoding error] &#123;&#125;&quot;</span>.<span class="hljs-built_in">format</span>(e)<br>                <span class="hljs-keyword">raise</span> e<br><br><br><span class="hljs-keyword">if</span> __name__ == <span class="hljs-string">&quot;__main__&quot;</span>:<br>    <span class="hljs-comment"># Args are only relevant for __main__ usage</span><br>    <br>    <span class="hljs-comment">## Description for help</span><br>    parser = argparse.ArgumentParser(<br>                description=<span class="hljs-string">&#x27;Flask Session Cookie Decoder/Encoder&#x27;</span>,<br>                epilog=<span class="hljs-string">&quot;Author : Wilson Sumanang, Alexandre ZANNI&quot;</span>)<br><br>    <span class="hljs-comment">## prepare sub commands</span><br>    subparsers = parser.add_subparsers(<span class="hljs-built_in">help</span>=<span class="hljs-string">&#x27;sub-command help&#x27;</span>, dest=<span class="hljs-string">&#x27;subcommand&#x27;</span>)<br><br>    <span class="hljs-comment">## create the parser for the encode command</span><br>    parser_encode = subparsers.add_parser(<span class="hljs-string">&#x27;encode&#x27;</span>, <span class="hljs-built_in">help</span>=<span class="hljs-string">&#x27;encode&#x27;</span>)<br>    parser_encode.add_argument(<span class="hljs-string">&#x27;-s&#x27;</span>, <span class="hljs-string">&#x27;--secret-key&#x27;</span>, metavar=<span class="hljs-string">&#x27;&lt;string&gt;&#x27;</span>,<br>                                <span class="hljs-built_in">help</span>=<span class="hljs-string">&#x27;Secret key&#x27;</span>, required=<span class="hljs-literal">True</span>)<br>    parser_encode.add_argument(<span class="hljs-string">&#x27;-t&#x27;</span>, <span class="hljs-string">&#x27;--cookie-structure&#x27;</span>, metavar=<span class="hljs-string">&#x27;&lt;string&gt;&#x27;</span>,<br>                                <span class="hljs-built_in">help</span>=<span class="hljs-string">&#x27;Session cookie structure&#x27;</span>, required=<span class="hljs-literal">True</span>)<br><br>    <span class="hljs-comment">## create the parser for the decode command</span><br>    parser_decode = subparsers.add_parser(<span class="hljs-string">&#x27;decode&#x27;</span>, <span class="hljs-built_in">help</span>=<span class="hljs-string">&#x27;decode&#x27;</span>)<br>    parser_decode.add_argument(<span class="hljs-string">&#x27;-s&#x27;</span>, <span class="hljs-string">&#x27;--secret-key&#x27;</span>, metavar=<span class="hljs-string">&#x27;&lt;string&gt;&#x27;</span>,<br>                                <span class="hljs-built_in">help</span>=<span class="hljs-string">&#x27;Secret key&#x27;</span>, required=<span class="hljs-literal">False</span>)<br>    parser_decode.add_argument(<span class="hljs-string">&#x27;-c&#x27;</span>, <span class="hljs-string">&#x27;--cookie-value&#x27;</span>, metavar=<span class="hljs-string">&#x27;&lt;string&gt;&#x27;</span>,<br>                                <span class="hljs-built_in">help</span>=<span class="hljs-string">&#x27;Session cookie value&#x27;</span>, required=<span class="hljs-literal">True</span>)<br><br>    <span class="hljs-comment">## get args</span><br>    args = parser.parse_args()<br><br>    <span class="hljs-comment">## find the option chosen</span><br>    <span class="hljs-keyword">if</span>(args.subcommand == <span class="hljs-string">&#x27;encode&#x27;</span>):<br>        <span class="hljs-keyword">if</span>(args.secret_key <span class="hljs-keyword">is</span> <span class="hljs-keyword">not</span> <span class="hljs-literal">None</span> <span class="hljs-keyword">and</span> args.cookie_structure <span class="hljs-keyword">is</span> <span class="hljs-keyword">not</span> <span class="hljs-literal">None</span>):<br>            <span class="hljs-built_in">print</span>(FSCM.encode(args.secret_key, args.cookie_structure))<br>    <span class="hljs-keyword">elif</span>(args.subcommand == <span class="hljs-string">&#x27;decode&#x27;</span>):<br>        <span class="hljs-keyword">if</span>(args.secret_key <span class="hljs-keyword">is</span> <span class="hljs-keyword">not</span> <span class="hljs-literal">None</span> <span class="hljs-keyword">and</span> args.cookie_value <span class="hljs-keyword">is</span> <span class="hljs-keyword">not</span> <span class="hljs-literal">None</span>):<br>            <span class="hljs-built_in">print</span>(FSCM.decode(args.cookie_value,args.secret_key))<br>        <span class="hljs-keyword">elif</span>(args.cookie_value <span class="hljs-keyword">is</span> <span class="hljs-keyword">not</span> <span class="hljs-literal">None</span>):<br>            <span class="hljs-built_in">print</span>(FSCM.decode(args.cookie_value))<br></code></pre></td></tr></table></figure>
+
+<p>可以去github给作者点个star。</p>
+<p>然后我们把改完后的格式({‘username’:b’fuck’})再加密一下得到cookie</p>
+<img src="/2023/05/23/flask-session%E4%BC%AA%E9%80%A0/10.png" srcset="/img/loading.gif" lazyload>
+
+<p>再把我们的cookie改一下。</p>
+<p>再次访问&#x2F;flag，得到flag</p>
+<img src="/2023/05/23/flask-session%E4%BC%AA%E9%80%A0/11.png" srcset="/img/loading.gif" lazyload>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/flask-session%E4%BC%AA%E9%80%A0/">#flask_session伪造</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>flask_session伪造</div>
+      <div>http://example.com/2023/05/23/flask-session伪造/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Ec0y</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2023年5月23日</div>
+        </div>
+      
+      
+      <div class="license-meta-item">
+        <div>许可协议</div>
+        <div>
+          
+            
+            
+              <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+              <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                <i class="iconfont icon-by"></i>
+              </span>
+              </a>
+            
+          
+        </div>
+      </div>
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2023/04/07/%E5%85%B3%E4%BA%8EDVWA%E6%97%A0%E6%B3%95%E4%BD%BF%E7%94%A8sqlmap%E8%BF%9B%E8%A1%8Csql%E6%B3%A8%E5%85%A5%E6%B5%8B%E8%AF%95/" title="关于DVWA无法使用sqlmap进行sql注入测试">
+                        <span class="hidden-mobile">关于DVWA无法使用sqlmap进行sql注入测试</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+      <div class="col-lg-7 mx-auto nopadding-x-md">
+        <div class="container custom mx-auto">
+          <link rel="stylesheet" href="/dist/APlayer.min.css"> <div id="player"></div> <script type="text/javascript" src="/dist/APlayer.min.js"></script> <script type="text/javascript" src="/js/music.js"></script>
+        </div>
+      </div>
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    
+      <script  src="/js/img-lazyload.js" ></script>
+    
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      headingSelector : CONFIG.toc.headingSelector || 'h1,h2,h3,h4,h5,h6',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      collapseDepth   : CONFIG.toc.collapseDepth || 0,
+      scrollSmooth    : true,
+      headingsOffset  : -boardTop
+    });
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.10/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+  
+<script src="/js/music.js%20/dist/APlayer.min.js"></script>
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"model":{"jsonPath":"/live2dw/assets/hijiki.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":true},"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>

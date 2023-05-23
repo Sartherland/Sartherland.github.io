@@ -16,24 +16,23 @@
   <meta name="author" content="Ec0y">
   <meta name="keywords" content="">
   
-    <meta name="description" content="​    今天在打DVWA的文件包含靶场时(别问为什么学了这么久才开始打这些基础靶，问就是菜😭)，发现远程文件包含时，php文件执行phpinfo()后里面显示的地址是php本地地址，而txt文件执行phpinfo()后才是靶场服务器地址。(虽然应该是个老知识，但我不会，还是记录一下)">
+    <meta name="description" content="​    今天在DVWA的SQL注入模块打靶的时候试着sqlmap梭一手，但一直说没有注入点，检查语句啥的都没有什么问题。（真的搞的毛躁了😭！） ​	参考了这位大佬 ​	原因是使用localhost当测试地址时，DVWA的安全级别是无法修改的，默认为impossible，导致SQLMAP测试失败。修改成127.0.0.1的测试地址后成功执行。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="远程文件包含时txt文件和php文件的区别">
-<meta property="og:url" content="http://example.com/2023/04/05/%E8%BF%9C%E7%A8%8B%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB%E6%97%B6txt%E6%96%87%E4%BB%B6%E5%92%8Cphp%E6%96%87%E4%BB%B6%E7%9A%84%E5%8C%BA%E5%88%AB/index.html">
+<meta property="og:title" content="关于DVWA无法使用sqlmap进行sql注入测试">
+<meta property="og:url" content="http://example.com/2023/04/07/%E5%85%B3%E4%BA%8EDVWA%E6%97%A0%E6%B3%95%E4%BD%BF%E7%94%A8sqlmap%E8%BF%9B%E8%A1%8Csql%E6%B3%A8%E5%85%A5%E6%B5%8B%E8%AF%95/index.html">
 <meta property="og:site_name" content="Ec0y&#39;s Blog">
-<meta property="og:description" content="​    今天在打DVWA的文件包含靶场时(别问为什么学了这么久才开始打这些基础靶，问就是菜😭)，发现远程文件包含时，php文件执行phpinfo()后里面显示的地址是php本地地址，而txt文件执行phpinfo()后才是靶场服务器地址。(虽然应该是个老知识，但我不会，还是记录一下)">
+<meta property="og:description" content="​    今天在DVWA的SQL注入模块打靶的时候试着sqlmap梭一手，但一直说没有注入点，检查语句啥的都没有什么问题。（真的搞的毛躁了😭！） ​	参考了这位大佬 ​	原因是使用localhost当测试地址时，DVWA的安全级别是无法修改的，默认为impossible，导致SQLMAP测试失败。修改成127.0.0.1的测试地址后成功执行。">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://example.com/2023/04/05/%E8%BF%9C%E7%A8%8B%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB%E6%97%B6txt%E6%96%87%E4%BB%B6%E5%92%8Cphp%E6%96%87%E4%BB%B6%E7%9A%84%E5%8C%BA%E5%88%AB/1.png">
-<meta property="og:image" content="http://example.com/2023/04/05/%E8%BF%9C%E7%A8%8B%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB%E6%97%B6txt%E6%96%87%E4%BB%B6%E5%92%8Cphp%E6%96%87%E4%BB%B6%E7%9A%84%E5%8C%BA%E5%88%AB/2.png">
-<meta property="article:published_time" content="2023-04-05T15:49:39.000Z">
-<meta property="article:modified_time" content="2023-04-06T15:03:03.838Z">
+<meta property="og:image" content="http://example.com/2023/04/07/%E5%85%B3%E4%BA%8EDVWA%E6%97%A0%E6%B3%95%E4%BD%BF%E7%94%A8sqlmap%E8%BF%9B%E8%A1%8Csql%E6%B3%A8%E5%85%A5%E6%B5%8B%E8%AF%95/1.png">
+<meta property="article:published_time" content="2023-04-07T10:28:23.000Z">
+<meta property="article:modified_time" content="2023-04-07T10:36:02.243Z">
 <meta property="article:author" content="Ec0y">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="http://example.com/2023/04/05/%E8%BF%9C%E7%A8%8B%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB%E6%97%B6txt%E6%96%87%E4%BB%B6%E5%92%8Cphp%E6%96%87%E4%BB%B6%E7%9A%84%E5%8C%BA%E5%88%AB/1.png">
+<meta name="twitter:image" content="http://example.com/2023/04/07/%E5%85%B3%E4%BA%8EDVWA%E6%97%A0%E6%B3%95%E4%BD%BF%E7%94%A8sqlmap%E8%BF%9B%E8%A1%8Csql%E6%B3%A8%E5%85%A5%E6%B5%8B%E8%AF%95/1.png">
   
   
   
-  <title>远程文件包含时txt文件和php文件的区别 - Ec0y&#39;s Blog</title>
+  <title>关于DVWA无法使用sqlmap进行sql注入测试 - Ec0y&#39;s Blog</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -178,7 +177,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="远程文件包含时txt文件和php文件的区别"></span>
+            <span id="subtitle" data-typed-text="关于DVWA无法使用sqlmap进行sql注入测试"></span>
           
         </div>
 
@@ -189,8 +188,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2023-04-05 23:49" pubdate>
-          2023年4月5日 晚上
+        <time datetime="2023-04-07 18:28" pubdate>
+          2023年4月7日 晚上
         </time>
       </span>
     
@@ -201,7 +200,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          140 字
+          165 字
         
       </span>
     
@@ -250,15 +249,15 @@
         <div id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">远程文件包含时txt文件和php文件的区别</h1>
+            <h1 style="display: none">关于DVWA无法使用sqlmap进行sql注入测试</h1>
             
             
               <div class="markdown-body">
                 
-                <p>​    今天在打DVWA的文件包含靶场时(别问为什么学了这么久才开始打这些基础靶，问就是菜😭)，发现远程文件包含时，php文件执行phpinfo()后里面显示的地址是php本地地址，而txt文件执行phpinfo()后才是靶场服务器地址。(虽然应该是个老知识，但我不会，还是记录一下)</p>
-<img src="/2023/04/05/%E8%BF%9C%E7%A8%8B%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB%E6%97%B6txt%E6%96%87%E4%BB%B6%E5%92%8Cphp%E6%96%87%E4%BB%B6%E7%9A%84%E5%8C%BA%E5%88%AB/1.png" srcset="/img/loading.gif" lazyload>
-
-<img src="/2023/04/05/%E8%BF%9C%E7%A8%8B%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB%E6%97%B6txt%E6%96%87%E4%BB%B6%E5%92%8Cphp%E6%96%87%E4%BB%B6%E7%9A%84%E5%8C%BA%E5%88%AB/2.png" srcset="/img/loading.gif" lazyload>
+                <p>​    今天在DVWA的SQL注入模块打靶的时候试着sqlmap梭一手，但一直说没有注入点，检查语句啥的都没有什么问题。（真的搞的毛躁了😭！）</p>
+<p>​	<a target="_blank" rel="noopener" href="https://blog.51cto.com/u_1394444/2500508">参考了这位大佬</a></p>
+<p>​	原因是使用localhost当测试地址时，DVWA的安全级别是无法修改的，默认为impossible，导致SQLMAP测试失败。修改成127.0.0.1的测试地址后成功执行。</p>
+<img src="/2023/04/07/%E5%85%B3%E4%BA%8EDVWA%E6%97%A0%E6%B3%95%E4%BD%BF%E7%94%A8sqlmap%E8%BF%9B%E8%A1%8Csql%E6%B3%A8%E5%85%A5%E6%B5%8B%E8%AF%95/1.png" srcset="/img/loading.gif" lazyload>
 
                 
               </div>
@@ -276,8 +275,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>远程文件包含时txt文件和php文件的区别</div>
-      <div>http://example.com/2023/04/05/远程文件包含时txt文件和php文件的区别/</div>
+      <div>关于DVWA无法使用sqlmap进行sql注入测试</div>
+      <div>http://example.com/2023/04/07/关于DVWA无法使用sqlmap进行sql注入测试/</div>
     </div>
     <div class="license-meta">
       
@@ -289,7 +288,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2023年4月5日</div>
+          <div>2023年4月7日</div>
         </div>
       
       
@@ -319,9 +318,9 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2023/04/07/%E5%85%B3%E4%BA%8EDVWA%E6%97%A0%E6%B3%95%E4%BD%BF%E7%94%A8sqlmap%E8%BF%9B%E8%A1%8Csql%E6%B3%A8%E5%85%A5%E6%B5%8B%E8%AF%95/" title="关于DVWA无法使用sqlmap进行sql注入测试">
+                      <a href="/2023/05/23/flask-session%E4%BC%AA%E9%80%A0/" title="flask_session伪造">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">关于DVWA无法使用sqlmap进行sql注入测试</span>
+                        <span class="hidden-mobile">flask_session伪造</span>
                         <span class="visible-mobile">上一篇</span>
                       </a>
                     
@@ -329,8 +328,8 @@
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2023/04/02/problem1/" title="CTFSHOW愚人杯easy_ssti">
-                        <span class="hidden-mobile">CTFSHOW愚人杯easy_ssti</span>
+                      <a href="/2023/04/05/%E8%BF%9C%E7%A8%8B%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB%E6%97%B6txt%E6%96%87%E4%BB%B6%E5%92%8Cphp%E6%96%87%E4%BB%B6%E7%9A%84%E5%8C%BA%E5%88%AB/" title="远程文件包含时txt文件和php文件的区别">
+                        <span class="hidden-mobile">远程文件包含时txt文件和php文件的区别</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>

@@ -1,7 +1,7 @@
 const ap = new APlayer({
     container: document.getElementById('player'),
     fixed: true,
-    autoplay: true,
+    autoplay: false,
     theme: '#252d38',
     audio: [{
         name: 'shelveme',
