@@ -16,13 +16,14 @@
   <meta name="author" content="Ec0y">
   <meta name="keywords" content="">
   
-    <meta name="description" content="MoeCTF Web部分题解（实力有限）1.http  打开地址发现以下任务，   Burp抓一下看看包的内容，   修改包的内容如下   回显得到flag   2.Web入门指北  解码即得 3.彼岸的flag  直接看源码得到flag   4.cookie  根据附件中readme的提示   hackbar发送post注册登录获取flag即可   5.gas!gas!gas!  好好好这题感觉">
+    <meta name="description" content="MoeCTF Web部分题解（实力有限）  1.http  打开地址发现以下任务，   Burp抓一下看看包的内容，   修改包的内容如下   回显得到flag   2.Web入门指北  解码即得 3.彼岸的flag  直接看源码得到flag   4.cookie  根据附件中readme的提示   hackbar发送post注册登录获取flag即可   5.gas!gas!gas!  好好好这题">
 <meta property="og:type" content="article">
 <meta property="og:title" content="MoeCTF 2023 Web部分题解">
 <meta property="og:url" content="http://example.com/2023/09/18/MoeCTF-2023-Web%E9%83%A8%E5%88%86%E9%A2%98%E8%A7%A3/index.html">
 <meta property="og:site_name" content="Ec0y&#39;s Blog">
-<meta property="og:description" content="MoeCTF Web部分题解（实力有限）1.http  打开地址发现以下任务，   Burp抓一下看看包的内容，   修改包的内容如下   回显得到flag   2.Web入门指北  解码即得 3.彼岸的flag  直接看源码得到flag   4.cookie  根据附件中readme的提示   hackbar发送post注册登录获取flag即可   5.gas!gas!gas!  好好好这题感觉">
+<meta property="og:description" content="MoeCTF Web部分题解（实力有限）  1.http  打开地址发现以下任务，   Burp抓一下看看包的内容，   修改包的内容如下   回显得到flag   2.Web入门指北  解码即得 3.彼岸的flag  直接看源码得到flag   4.cookie  根据附件中readme的提示   hackbar发送post注册登录获取flag即可   5.gas!gas!gas!  好好好这题">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/2023/09/18/MoeCTF-2023-Web%E9%83%A8%E5%88%86%E9%A2%98%E8%A7%A3/1.webp">
 <meta property="og:image" content="http://example.com/2023/09/18/MoeCTF-2023-Web%E9%83%A8%E5%88%86%E9%A2%98%E8%A7%A3/1-1.png">
 <meta property="og:image" content="http://example.com/2023/09/18/MoeCTF-2023-Web%E9%83%A8%E5%88%86%E9%A2%98%E8%A7%A3/1-2.png">
 <meta property="og:image" content="http://example.com/2023/09/18/MoeCTF-2023-Web%E9%83%A8%E5%88%86%E9%A2%98%E8%A7%A3/1-3.png">
@@ -53,10 +54,10 @@
 <meta property="og:image" content="http://example.com/2023/09/18/MoeCTF-2023-Web%E9%83%A8%E5%88%86%E9%A2%98%E8%A7%A3/9-2.png">
 <meta property="og:image" content="http://example.com/2023/09/18/MoeCTF-2023-Web%E9%83%A8%E5%88%86%E9%A2%98%E8%A7%A3/9-3.png">
 <meta property="article:published_time" content="2023-09-18T06:23:15.000Z">
-<meta property="article:modified_time" content="2023-09-18T09:07:09.266Z">
+<meta property="article:modified_time" content="2023-09-18T09:11:48.436Z">
 <meta property="article:author" content="Ec0y">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="http://example.com/2023/09/18/MoeCTF-2023-Web%E9%83%A8%E5%88%86%E9%A2%98%E8%A7%A3/1-1.png">
+<meta name="twitter:image" content="http://example.com/2023/09/18/MoeCTF-2023-Web%E9%83%A8%E5%88%86%E9%A2%98%E8%A7%A3/1.webp">
   
   
   
@@ -282,7 +283,9 @@
             
               <div class="markdown-body">
                 
-                <h1 id="MoeCTF-Web部分题解（实力有限）"><a href="#MoeCTF-Web部分题解（实力有限）" class="headerlink" title="MoeCTF Web部分题解（实力有限）"></a>MoeCTF Web部分题解（实力有限）</h1><h2 id="1-http"><a href="#1-http" class="headerlink" title="1.http"></a>1.http</h2><img src="/2023/09/18/MoeCTF-2023-Web%E9%83%A8%E5%88%86%E9%A2%98%E8%A7%A3/1-1.png" srcset="/img/loading.gif" lazyload>
+                <h1 id="MoeCTF-Web部分题解（实力有限）"><a href="#MoeCTF-Web部分题解（实力有限）" class="headerlink" title="MoeCTF Web部分题解（实力有限）"></a>MoeCTF Web部分题解（实力有限）</h1><img src="/2023/09/18/MoeCTF-2023-Web%E9%83%A8%E5%88%86%E9%A2%98%E8%A7%A3/1.webp" srcset="/img/loading.gif" lazyload>
+
+<h2 id="1-http"><a href="#1-http" class="headerlink" title="1.http"></a>1.http</h2><img src="/2023/09/18/MoeCTF-2023-Web%E9%83%A8%E5%88%86%E9%A2%98%E8%A7%A3/1-1.png" srcset="/img/loading.gif" lazyload>
 
 <p>打开地址发现以下任务，</p>
 <img src="/2023/09/18/MoeCTF-2023-Web%E9%83%A8%E5%88%86%E9%A2%98%E8%A7%A3/1-2.png" srcset="/img/loading.gif" lazyload>
